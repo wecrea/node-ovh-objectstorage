@@ -1,21 +1,14 @@
 # ObjectStorage OVH
 
-
-![Release : 2.0 ](https://img.shields.io/github/package-json/v/dimer47/node-ovh-objectstorage?color=red&style=flat-square) ![Last update](https://img.shields.io/github/last-commit/dimer47/node-ovh-objectstorage?color=yellow&label=Last%20update&style=flat-square) ![Dependency size](https://img.shields.io/bundlephobia/minzip/node-ovh-objectstorage?color=green&label=dependency%20size&style=flat-square) ![Repo size](https://img.shields.io/github/repo-size/dimer47/node-ovh-objectstorage?style=flat-square) ![Downloads](https://img.shields.io/npm/dt/node-ovh-objectstorage?style=flat-square) ![License](https://img.shields.io/github/license/dimer47/node-ovh-objectstorage?style=flat-square) 
-
 Simple library to use OVH Public Cloud Object Storage. <br> <br>
 Create and manage containers (public, private or static), add and manage objects in OVH Public Cloud (OpenStack).
 
-__Based on__  [developer.openstack.org](https://developer.openstack.org/api-ref/object-storage/?expanded=) official documentation.
+**Based on** [developer.openstack.org](https://developer.openstack.org/api-ref/object-storage/?expanded=) official documentation.
 
-A complete JSDoc is available [here](https://htmlpreview.github.io/?https://raw.githubusercontent.com/dimer47/node-ovh-objectstorage/master/doc/index.html). 
-<br>
+**Forkde from** [Dimer47](https://github.com/wecrea/node-ovh-objectstorage) ObjectStorage OVh repository.
 
-**⚠️ Warning :** This version introduce `some breakpoints`, if you want use this version, it's recommended to refactoring all your projects. <br>
-To use the previous version (V1), go on [#v1.0.x branch](https://github.com/dimer47/node-ovh-objectstorage/releases/tag/v1.0.2).
+## 🎉 Features
 
-
-## 🎉 Features 
 - Get account details and manage metas (create, update, has, get or delete),
 - Create, list, get details or delete containers,
 - Check if object exist in a container,
@@ -28,53 +21,59 @@ To use the previous version (V1), go on [#v1.0.x branch](https://github.com/dime
 - Manage metas on objects (create, update, has, get or delete).
 
 ## 📍 Install via npm
+
 ```sh
-npm install node-ovh-objectstorage --save
+npm install object-storage-ovh --save
 ```
 
 ## 🧮 Examples :
+
 ### Authentification
+
 Requesting a token to make operations on container.
+
 ```javascript
-var OVHStorage = require('node-ovh-objectstorage');
+var OVHStorage = require("object-storage-ovh");
 var config = {
-  username: '******',
-  password: '******',
-  authURL:  'https://auth.cloud.ovh.net/v3/auth',
-  tenantId: '******',
-  region:   'SBG'
+  username: "******",
+  password: "******",
+  authURL: "https://auth.cloud.ovh.net/v3/auth",
+  tenantId: "******",
+  region: "SBG",
 };
 
 (async () => {
-	try {
-		let storage = new OVHStorage(config);
-		await storage.connection();
-	} catch (e) {
-        // throw e
-	}
+  try {
+    let storage = new OVHStorage(config);
+    await storage.connection();
+  } catch (e) {
+    // throw e
+  }
 })();
 ```
 
 ### Account
+
 Available methods :
+
 - **all()** _: Object of account details and list containers (Promise)_
-- **details()** _: Object (Promise)_ 
+- **details()** _: Object (Promise)_
 - **containers()** _: Array of each container object (Promise)_
 - **metas()**
-    - **create(** container, key, value **)** _: Header response (Promise)_
-    - **create_with_result(** container, key, value **)** _: Boolean (Promise)_
-    - **update(** container, key, value **)** _: Header response (Promise)_
-    - **update_with_result(** container, key, value **)** _: Boolean (Promise)_  
-    - **delete(** container, key **)** _: Header response (Promise)_
-    - **delete_with_result(** container, key **)** _: Boolean (Promise)_  
-    - **all(** container **)** _: Object of metas (Promise)_
-    - **has(** container, key **)** _: Boolean (Promise)_  
-    - **get(** container, key **)** _: String or null (Promise)_
-
+  - **create(** container, key, value **)** _: Header response (Promise)_
+  - **create_with_result(** container, key, value **)** _: Boolean (Promise)_
+  - **update(** container, key, value **)** _: Header response (Promise)_
+  - **update_with_result(** container, key, value **)** _: Boolean (Promise)_
+  - **delete(** container, key **)** _: Header response (Promise)_
+  - **delete_with_result(** container, key **)** _: Boolean (Promise)_
+  - **all(** container **)** _: Object of metas (Promise)_
+  - **has(** container, key **)** _: Boolean (Promise)_
+  - **get(** container, key **)** _: String or null (Promise)_
 
 #### Create
+
 ```javascript
-var OVHStorage = require('node-ovh-objectstorage');
+var OVHStorage = require('object-storage-ovh');
 var config = {
     ...
 };
@@ -99,8 +98,9 @@ var config = {
 ```
 
 #### Delete
+
 ```javascript
-var OVHStorage = require('node-ovh-objectstorage');
+var OVHStorage = require('object-storage-ovh');
 var config = {
     ...
 };
@@ -121,8 +121,9 @@ var config = {
 ```
 
 #### Delete (container and all objects inside)
+
 ```javascript
-var OVHStorage = require('node-ovh-objectstorage');
+var OVHStorage = require('object-storage-ovh');
 var config = {
     ...
 };
@@ -143,8 +144,9 @@ var config = {
 ```
 
 #### Remove all object in container
+
 ```javascript
-var OVHStorage = require('node-ovh-objectstorage');
+var OVHStorage = require('object-storage-ovh');
 var config = {
     ...
 };
@@ -165,8 +167,9 @@ var config = {
 ```
 
 #### List all object in container
+
 ```javascript
-var OVHStorage = require('node-ovh-objectstorage');
+var OVHStorage = require('object-storage-ovh');
 var config = {
     ...
 };
@@ -186,8 +189,9 @@ var config = {
 ```
 
 #### Check if container exist
+
 ```javascript
-var OVHStorage = require('node-ovh-objectstorage');
+var OVHStorage = require('object-storage-ovh');
 var config = {
     ...
 };
@@ -206,8 +210,9 @@ var config = {
 ```
 
 #### Details about container
+
 ```javascript
-var OVHStorage = require('node-ovh-objectstorage');
+var OVHStorage = require('object-storage-ovh');
 var config = {
     ...
 };
@@ -226,8 +231,9 @@ var config = {
 ```
 
 #### Meta informations of container
+
 ```javascript
-var OVHStorage = require('node-ovh-objectstorage');
+var OVHStorage = require('object-storage-ovh');
 var config = {
     ...
 };
@@ -245,10 +251,10 @@ var config = {
 
         // retrieve value of author meta
         console.log(await storage.containers().metas().get("assets", "author"));
-        
+
         // update value of author meta
         await storage.containers().metas().update("assets", "author", 'unknown');
-        
+
         // if meta author exist on container name "assets", remove it
         if(await storage.containers().metas().has("assets", "author"))
             await storage.containers().metas().delete("assets", "author");
@@ -259,9 +265,11 @@ var config = {
 ```
 
 ### Containers
+
 Available methods :
-- **create(** container, types, web_content_pages **)** _: Header response (Promise)_
-- **create_with_result(** container, types, web_content_pages **)** _: Boolean_ 
+
+- **create(** container, types, web*content_pages **)** *: Header response (Promise)\_
+- **create_with_result(** container, types, web*content_pages **)** *: Boolean\_
 - **list(** container **)** _: Object (Promise)_
 - **exist(** container **)** _: Boolean (Promise)_
 - **info(** container **)** _: Header response (Promise)_
@@ -270,20 +278,20 @@ Available methods :
 - **delete(** container, force=false **)** _: Header response (Promise)_
 - **delete_with_result(** container, force=false **)** _: Boolean (Promise)_
 - **metas()**
-    - **create(** container, key, value **)** _: Header response (Promise)_
-    - **create_with_result(** container, key, value **)** _: Boolean (Promise)_
-    - **update(** container, key, value **)** _: Header response (Promise)_
-    - **update_with_result(** container, key, value **)** _: Boolean (Promise)_  
-    - **delete(** container, key **)** _: Header response (Promise)_
-    - **delete_with_result(** container, key **)** _: Boolean (Promise)_  
-    - **all(** container **)** _: Object of metas (Promise)_
-    - **has(** container, key **)** _: Boolean (Promise)_  
-    - **get(** container, key **)** _: String or null (Promise)_
-
+  - **create(** container, key, value **)** _: Header response (Promise)_
+  - **create_with_result(** container, key, value **)** _: Boolean (Promise)_
+  - **update(** container, key, value **)** _: Header response (Promise)_
+  - **update_with_result(** container, key, value **)** _: Boolean (Promise)_
+  - **delete(** container, key **)** _: Header response (Promise)_
+  - **delete_with_result(** container, key **)** _: Boolean (Promise)_
+  - **all(** container **)** _: Object of metas (Promise)_
+  - **has(** container, key **)** _: Boolean (Promise)_
+  - **get(** container, key **)** _: String or null (Promise)_
 
 #### Create
+
 ```javascript
-var OVHStorage = require('node-ovh-objectstorage');
+var OVHStorage = require('object-storage-ovh');
 var config = {
     ...
 };
@@ -308,8 +316,9 @@ var config = {
 ```
 
 #### Delete
+
 ```javascript
-var OVHStorage = require('node-ovh-objectstorage');
+var OVHStorage = require('object-storage-ovh');
 var config = {
     ...
 };
@@ -330,8 +339,9 @@ var config = {
 ```
 
 #### Delete (container and all objects inside)
+
 ```javascript
-var OVHStorage = require('node-ovh-objectstorage');
+var OVHStorage = require('object-storage-ovh');
 var config = {
     ...
 };
@@ -352,8 +362,9 @@ var config = {
 ```
 
 #### Remove all object in container
+
 ```javascript
-var OVHStorage = require('node-ovh-objectstorage');
+var OVHStorage = require('object-storage-ovh');
 var config = {
     ...
 };
@@ -374,8 +385,9 @@ var config = {
 ```
 
 #### List all object in container
+
 ```javascript
-var OVHStorage = require('node-ovh-objectstorage');
+var OVHStorage = require('object-storage-ovh');
 var config = {
     ...
 };
@@ -395,8 +407,9 @@ var config = {
 ```
 
 #### Check if container exist
+
 ```javascript
-var OVHStorage = require('node-ovh-objectstorage');
+var OVHStorage = require('object-storage-ovh');
 var config = {
     ...
 };
@@ -415,8 +428,9 @@ var config = {
 ```
 
 #### Details about container
+
 ```javascript
-var OVHStorage = require('node-ovh-objectstorage');
+var OVHStorage = require('object-storage-ovh');
 var config = {
     ...
 };
@@ -435,8 +449,9 @@ var config = {
 ```
 
 #### Meta informations of container
+
 ```javascript
-var OVHStorage = require('node-ovh-objectstorage');
+var OVHStorage = require('object-storage-ovh');
 var config = {
     ...
 };
@@ -454,10 +469,10 @@ var config = {
 
         // retrieve value of author meta
         console.log(await storage.containers().metas().get("assets", "author"));
-        
+
         // update value of author meta
         await storage.containers().metas().update("assets", "author", 'unknown');
-        
+
         // if meta author exist on container name "assets", remove it
         if(await storage.containers().metas().has("assets", "author"))
             await storage.containers().metas().delete("assets", "author");
@@ -468,38 +483,40 @@ var config = {
 ```
 
 ### Objects
-- **save(** file, path **)** _: Header response (Promise)_ 
-- **save_with_result(** file, path **)** _: Header response (Promise)_ 
-- **set(** file, path **)** _: Header response (Promise)_  
-- **set_with_result(** file, path **)** _: Header response (Promise)_  
+
+- **save(** file, path **)** _: Header response (Promise)_
+- **save_with_result(** file, path **)** _: Header response (Promise)_
+- **set(** file, path **)** _: Header response (Promise)_
+- **set_with_result(** file, path **)** _: Header response (Promise)_
 - **exist(** path **)** _: Boolean (Promise)_
-- **info(** path **)** _: Header response (Promise)_ 
-- **get(** path **)** _: Object with content and header response (Promise)_ 
+- **info(** path **)** _: Header response (Promise)_
+- **get(** path **)** _: Object with content and header response (Promise)_
 - **download(** path, pathLocal **)** _: Boolean (Promise)_
 - **copy(** pathOrigin, pathToPaste **)** _: Header response (Promise)_
 - **copy_with_result(** **)** _: Boolean (Promise)_
 - **delete(** path, checkContainer = true **)** _: Header response (Promise)_
 - **delete_with_result(** path, checkContainer = true **)** _: Boolean (Promise)_
 - **deletes(** path, checkContainer = true **)** _: Header response of all deleted files (Promise)_
-- **deletes_with_result(** path, checkContainer = true **)** _: Boolean (Promise)_ 
-- **expire_at(** path, expire_date **)** _: Header response (Promise)_
-- **expire_at_with_result(** path, expire_date **)** _: Boolean (Promise)_ 
-- **expire_after(** path, delete_seconds **)** _: Header response (Promise)_
-- **expire_after_with_result(** path, delete_seconds **)** _: Boolean (Promise)_ 
+- **deletes_with_result(** path, checkContainer = true **)** _: Boolean (Promise)_
+- **expire_at(** path, expire*date **)** *: Header response (Promise)\_
+- **expire_at_with_result(** path, expire*date **)** *: Boolean (Promise)\_
+- **expire_after(** path, delete*seconds **)** *: Header response (Promise)\_
+- **expire_after_with_result(** path, delete*seconds **)** *: Boolean (Promise)\_
 - **metas()**
-    - **create(** path, key, value **)** _: Header response (Promise)_
-    - **create_with_result(** path, key, value **)** _: Boolean (Promise)_
-    - **update(** path, key, value **)** _: Header response (Promise)_
-    - **update_with_result(** path, key, value **)** _: Boolean (Promise)_  
-    - **delete(** path, key **)** _: Header response (Promise)_
-    - **delete_with_result(** path, key **)** _: Boolean (Promise)_  
-    - **all(** path **)** _: Object of metas (Promise)_
-    - **has(** path, key **)** _: Boolean (Promise)_  
-    - **get(** path, key **)** _: String or null (Promise)_
-    
+  - **create(** path, key, value **)** _: Header response (Promise)_
+  - **create_with_result(** path, key, value **)** _: Boolean (Promise)_
+  - **update(** path, key, value **)** _: Header response (Promise)_
+  - **update_with_result(** path, key, value **)** _: Boolean (Promise)_
+  - **delete(** path, key **)** _: Header response (Promise)_
+  - **delete_with_result(** path, key **)** _: Boolean (Promise)_
+  - **all(** path **)** _: Object of metas (Promise)_
+  - **has(** path, key **)** _: Boolean (Promise)_
+  - **get(** path, key **)** _: String or null (Promise)_
+
 #### Download object
+
 ```javascript
-var OVHStorage = require('node-ovh-objectstorage');
+var OVHStorage = require('object-storage-ovh');
 var config = {
     ...
 };
@@ -517,118 +534,151 @@ var config = {
 ```
 
 #### Get object content
+
 ```javascript
 (async () => {
-    try {
-        let storage = new OVHStorage(config);
-        await storage.connection();
+  try {
+    let storage = new OVHStorage(config);
+    await storage.connection();
 
-        let rqt = await storage.objects().get("/assets/IMG_1145.jpg");
-        console.log(rqt.content);
-    } catch (e) {
-        // throw e
-    }
+    let rqt = await storage.objects().get("/assets/IMG_1145.jpg");
+    console.log(rqt.content);
+  } catch (e) {
+    // throw e
+  }
 })();
 ```
 
 #### Add object
+
 ```javascript
 (async () => {
-    try {
-        let storage = new OVHStorage(config);
-        await storage.connection();
+  try {
+    let storage = new OVHStorage(config);
+    await storage.connection();
 
-        await storage.objects().save("./IMG_1145.jpg", "/assets/IMG_1145.jpg")
-        // or with boolean result
-        console.log(await storage.objects().save_with_result("./IMG_1145.jpg", "/assets/IMG_1145.jpg"))
-    } catch (e) {
-        // throw e
-    }
+    await storage.objects().save("./IMG_1145.jpg", "/assets/IMG_1145.jpg");
+    // or with boolean result
+    console.log(
+      await storage
+        .objects()
+        .save_with_result("./IMG_1145.jpg", "/assets/IMG_1145.jpg")
+    );
+  } catch (e) {
+    // throw e
+  }
 })();
 ```
 
 #### Clone object
+
 ```javascript
 (async () => {
-    try {
-        let storage = new OVHStorage(config);
-        await storage.connection();
+  try {
+    let storage = new OVHStorage(config);
+    await storage.connection();
 
-        await storage.objects().copy("/assets/IMG_1145.jpg", "/assets/IMG_1145_2.jpg")
-        // or with boolean result
-        console.log(await storage.objects().copy_with_result("/assets/IMG_1145.jpg", "/assets/IMG_1145_2.jpg"))
-    } catch (e) {
-        // throw e
-    }
+    await storage
+      .objects()
+      .copy("/assets/IMG_1145.jpg", "/assets/IMG_1145_2.jpg");
+    // or with boolean result
+    console.log(
+      await storage
+        .objects()
+        .copy_with_result("/assets/IMG_1145.jpg", "/assets/IMG_1145_2.jpg")
+    );
+  } catch (e) {
+    // throw e
+  }
 })();
 ```
 
 #### Delete object
+
 ```javascript
 (async () => {
-    try {
-        let storage = new OVHStorage(config);
-        await storage.connection();
+  try {
+    let storage = new OVHStorage(config);
+    await storage.connection();
 
-        await storage.objects().delete("/assets/IMG_1145_2.jpg")
-        // or with boolean result
-        console.log(await storage.objects().delete_with_result("/assets/IMG_1145_2.jpg"))
-    } catch (e) {
-        // throw e
-    }
+    await storage.objects().delete("/assets/IMG_1145_2.jpg");
+    // or with boolean result
+    console.log(
+      await storage.objects().delete_with_result("/assets/IMG_1145_2.jpg")
+    );
+  } catch (e) {
+    // throw e
+  }
 })();
 ```
 
 #### Details about object
+
 ```javascript
 (async () => {
-    try {
-        let storage = new OVHStorage(config);
-        await storage.connection();
+  try {
+    let storage = new OVHStorage(config);
+    await storage.connection();
 
-        let details = await storage.objects().info("/assets/IMG_1145.jpg")
-        console.log(details);
-    } catch (e) {
-        // throw e
-    }
+    let details = await storage.objects().info("/assets/IMG_1145.jpg");
+    console.log(details);
+  } catch (e) {
+    // throw e
+  }
 })();
 ```
 
 #### Programming object expiration at datetime (need momentjs)
+
 ```javascript
 (async () => {
-    try {
-        let storage = new OVHStorage(config);
-        await storage.connection();
+  try {
+    let storage = new OVHStorage(config);
+    await storage.connection();
 
-        await storage.objects().expire_at("/assets/IMG_1145.jpg", moment().add("7", "days"))
-        // or with boolean result
-        console.log(await storage.objects().expire_at_with_result("/assets/IMG_1145.jpg", moment().add("7", "days")));
-    } catch (e) {
-        // throw e
-    }
+    await storage
+      .objects()
+      .expire_at("/assets/IMG_1145.jpg", moment().add("7", "days"));
+    // or with boolean result
+    console.log(
+      await storage
+        .objects()
+        .expire_at_with_result(
+          "/assets/IMG_1145.jpg",
+          moment().add("7", "days")
+        )
+    );
+  } catch (e) {
+    // throw e
+  }
 })();
 ```
 
 #### Programming object expiration after seconds
+
 ```javascript
 (async () => {
-    try {
-        let storage = new OVHStorage(config);
-        await storage.connection();
+  try {
+    let storage = new OVHStorage(config);
+    await storage.connection();
 
-        await storage.objects().expire_after("/assets/IMG_1145.jpg", 180)
-        // or with boolean result
-        console.log(await storage.objects().expire_after_with_result("/assets/IMG_1145.jpg", 180));
-    } catch (e) {
-        // throw e
-    }
+    await storage.objects().expire_after("/assets/IMG_1145.jpg", 180);
+    // or with boolean result
+    console.log(
+      await storage
+        .objects()
+        .expire_after_with_result("/assets/IMG_1145.jpg", 180)
+    );
+  } catch (e) {
+    // throw e
+  }
 })();
 ```
 
 #### Meta informations of container
+
 ```javascript
-var OVHStorage = require('node-ovh-objectstorage');
+var OVHStorage = require('object-storage-ovh');
 var config = {
     ...
 };
@@ -646,10 +696,10 @@ var config = {
 
         // retrieve value of author meta
         console.log(await storage.objects().metas().get("/assets/IMG_1145.jpg", "author"));
-        
+
         // update value of author meta
         await storage.objects().metas().update("/assets/IMG_1145.jpg", "author", 'unknown');
-        
+
         // if meta author exist on object, remove it
         if(await storage.objects().metas().has("/assets/IMG_1145.jpg", "author"))
             await storage.objects().metas().delete("/assets/IMG_1145.jpg", "author");
@@ -660,5 +710,5 @@ var config = {
 ```
 
 ## 🧾 License
-[Creative Commons Attribution Share Alike 4.0 International](LICENSE)
 
+[Creative Commons Attribution Share Alike 4.0 International](LICENSE)

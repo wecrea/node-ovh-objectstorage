@@ -49,11 +49,7 @@ class ObjectsMeta {
 				if (!_.isString(value)) // noinspection ExceptionCaughtLocallyJS
 					throw new Error("Value parameter is not a string.");
 
-				// header
-				let header = {};
-				header["X-Object-Meta-" + _.toSlug(_.replace(_.toLower(key), /_/g, '-'))] = value;
-
-				// reformat path
+					// reformat path
 				let file = (() => {
 					let p = path.split('/');
 					if (p[0] === "")
@@ -66,6 +62,25 @@ class ObjectsMeta {
 					return p.join("/");
 				})();
 
+				let objects_infos = await this.context.objects().info(path);
+				let existant_headers = {};
+
+				if (_.isUndefined(objects_infos)) {
+					existant_headers = _.map(objects_infos.headers, (value, header) => {
+						if (
+						_.includes(_.toLower(header), _.toLower("X-Object-Meta-")) ||
+						_.includes(_.toLower(header), _.toLower("X-Delete-"))
+						) {
+						let a = {};
+						a[header] = value;
+						return a;
+						}
+					});
+				}
+
+				// header
+				existant_headers["X-Object-Meta-" + _.toSlug(_.replace(_.toLower(key), /_/g, '-'))] = value;
+
 				// call
 				request({
 					method: 'POST',
@@ -75,7 +90,7 @@ class ObjectsMeta {
 							"X-Auth-Token": this.context.token,
 							"Accept": "application/json"
 						},
-						header)
+						existant_headers)
 				}, (err, res, body) => {
 					err = err || request.checkIfResponseIsError(res);
 					if (err) // noinspection ExceptionCaughtLocallyJS
@@ -106,6 +121,88 @@ class ObjectsMeta {
 		} catch (e) {
 			return false;
 		}
+	}
+
+	/**
+	 * Create many object meta
+	 *
+	 * @param {String} path Path of file with container
+	 * @param {Object} metas Key - value metas
+	 *
+	 * @async
+	 * @return {Promise<Object>}
+	 */
+	createMany(path, metas) {
+		return new Promise((resolve, reject) => {
+			try {
+				// checks
+				if (_.isUndefined(path)) // noinspection ExceptionCaughtLocallyJS
+					throw new Error("File path parameter is expected.");
+				if (!_.isString(path)) // noinspection ExceptionCaughtLocallyJS
+					throw new Error("File path parameter is not a string.");
+				if (!_.includes(path, '/')) // noinspection ExceptionCaughtLocallyJS
+					throw new Error("File path parameter isn't valid : container/filename.ext.");
+
+				if (_.isUndefined(metas))
+					// noinspection ExceptionCaughtLocallyJS
+					throw new Error("Metas parameter is expected.");
+				if (!_.isObject(metas))
+					// noinspection ExceptionCaughtLocallyJS
+					throw new Error("Metas parameter is not an object.");
+
+					// reformat path
+				let file = (() => {
+					let p = path.split('/');
+					if (p[0] === "")
+						delete p[0];
+
+					p = _.filter(p, (r) => {
+						return !_.isUndefined(r);
+					});
+
+					return p.join("/");
+				})();
+
+				let objects_infos = await this.context.objects().info(path);
+				let existant_headers = {};
+
+				if (_.isUndefined(objects_infos)) {
+					existant_headers = _.map(objects_infos.headers, (value, header) => {
+						if (
+						_.includes(_.toLower(header), _.toLower("X-Object-Meta-")) ||
+						_.includes(_.toLower(header), _.toLower("X-Delete-"))
+						) {
+						let a = {};
+						a[header] = value;
+						return a;
+						}
+					});
+				}
+
+				// header
+				existant_headers["X-Object-Meta-" + _.toSlug(_.replace(_.toLower(key), /_/g, '-'))] = value;
+
+				// call
+				request({
+					method: 'POST',
+					uri: encodeURI(this.context.endpoint.url + '/' + file),
+					headers: Object.assign(
+						{
+							"X-Auth-Token": this.context.token,
+							"Accept": "application/json"
+						},
+						existant_headers)
+				}, (err, res, body) => {
+					err = err || request.checkIfResponseIsError(res);
+					if (err) // noinspection ExceptionCaughtLocallyJS
+						throw new Error(err);
+
+					return resolve(res.headers);
+				});
+			} catch (e) {
+				return reject(e);
+			}
+		});
 	}
 
 	/**
