@@ -1,6 +1,6 @@
 {
   "name": "object-storage-ovh",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple library to use OVH Public Cloud Object Storage.",
   "main": "index.js",
   "scripts": {

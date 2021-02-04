@@ -833,7 +833,7 @@ class Objects {
           throw new Error("Datetime expiration must be a valid datetime.");
 
         // reformat path
-        let path = (() => {
+        let file = (() => {
           let p = path.split("/");
           if (p[0] === "") delete p[0];
 
@@ -845,11 +845,11 @@ class Objects {
         })();
 
         // check if file exist
-        if (!(await this.context.objects().exist(path)))
+        if (!(await this.context.objects().exist(file)))
           // noinspection ExceptionCaughtLocallyJS
           throw new Error("File path does not seem to exist.");
 
-        let objects_infos = await this.context.objects().info(path);
+        let objects_infos = await this.context.objects().info(file);
         let existant_headers = {};
 
         if (_.isUndefined(objects_infos)) {
@@ -870,7 +870,7 @@ class Objects {
         request(
           {
             method: "POST",
-            uri: encodeURI(this.context.endpoint.url + "/" + path),
+            uri: encodeURI(this.context.endpoint.url + "/" + file),
             headers: Object.assign(
               {
                 "X-Auth-Token": this.context.token,
@@ -948,7 +948,7 @@ class Objects {
           throw new Error("Delete seconds isn't an integer.");
 
         // reformat path
-        let path = (() => {
+        let file = (() => {
           let p = path.split("/");
           if (p[0] === "") delete p[0];
 
@@ -960,11 +960,11 @@ class Objects {
         })();
 
         // check if file exist
-        if (!(await this.context.objects().exist(path)))
+        if (!(await this.context.objects().exist(file)))
           // noinspection ExceptionCaughtLocallyJS
           throw new Error("File path does not seem to exist.");
 
-        let objects_infos = await this.context.objects().info(path);
+        let objects_infos = await this.context.objects().info(file);
         let existant_headers = {};
 
         if (_.isUndefined(objects_infos)) {
@@ -980,7 +980,7 @@ class Objects {
         request(
           {
             method: "POST",
-            uri: encodeURI(this.context.endpoint.url + "/" + path),
+            uri: encodeURI(this.context.endpoint.url + "/" + file),
             headers: Object.assign(
               {
                 "X-Auth-Token": this.context.token,
