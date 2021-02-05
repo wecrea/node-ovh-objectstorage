@@ -200,7 +200,7 @@ class ObjectsMeta {
         }
 
         // header
-        Object.entries(metas).forEach((value, key) => {
+        Object.entries(metas).forEach(([key, value]) => {
           existant_headers[
             "X-Object-Meta-" + _.toSlug(_.replace(_.toLower(key), /_/g, "-"))
           ] = value;

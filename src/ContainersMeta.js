@@ -183,7 +183,7 @@ class ContainersMeta {
         }
 
         // header
-        Object.entries(metas).forEach((value, key) => {
+        Object.entries(metas).forEach(([key, value]) => {
           existant_headers[
             "X-Container-Meta-" + _.toSlug(_.replace(_.toLower(key), /_/g, "-"))
           ] = value;
