@@ -65,15 +65,13 @@ class ContainersMeta {
         let container_infos = await this.context.containers().info(container);
         let existant_headers = {};
 
-        if (_.isUndefined(container_infos)) {
-          existant_headers = _.map(container_infos.headers, (value, header) => {
+        if (!_.isUndefined(container_infos)) {
+          Object.entries(objects_infos).forEach((value, key) => {
             if (
-              _.includes(_.toLower(header), _.toLower("X-Container-Meta-")) ||
-              _.includes(_.toLower(header), _.toLower("X-Delete-"))
+              _.includes(_.toLower(value[0]), _.toLower("x-object-meta-")) ||
+              _.includes(_.toLower(value[0]), _.toLower("x-delete-"))
             ) {
-              let a = {};
-              a[header] = value;
-              return a;
+              existant_headers[value[0]] = value[1];
             }
           });
         }
@@ -169,15 +167,13 @@ class ContainersMeta {
         let container_infos = await this.context.containers().info(container);
         let existant_headers = {};
 
-        if (_.isUndefined(container_infos)) {
-          existant_headers = _.map(container_infos.headers, (value, header) => {
+        if (!_.isUndefined(container_infos)) {
+          Object.entries(objects_infos).forEach((value, key) => {
             if (
-              _.includes(_.toLower(header), _.toLower("X-Container-Meta-")) ||
-              _.includes(_.toLower(header), _.toLower("X-Delete-"))
+              _.includes(_.toLower(value[0]), _.toLower("x-object-meta-")) ||
+              _.includes(_.toLower(value[0]), _.toLower("x-delete-"))
             ) {
-              let a = {};
-              a[header] = value;
-              return a;
+              existant_headers[value[0]] = value[1];
             }
           });
         }

@@ -74,15 +74,13 @@ class ObjectsMeta {
         let objects_infos = await this.context.objects().info(file);
         let existant_headers = {};
 
-        if (_.isUndefined(objects_infos)) {
-          existant_headers = _.map(objects_infos.headers, (value, header) => {
+        if (!_.isUndefined(objects_infos)) {
+          Object.entries(objects_infos).forEach((value, key) => {
             if (
-              _.includes(_.toLower(header), _.toLower("X-Object-Meta-")) ||
-              _.includes(_.toLower(header), _.toLower("X-Delete-"))
+              _.includes(_.toLower(value[0]), _.toLower("x-object-meta-")) ||
+              _.includes(_.toLower(value[0]), _.toLower("x-delete-"))
             ) {
-              let a = {};
-              a[header] = value;
-              return a;
+              existant_headers[value[0]] = value[1];
             }
           });
         }
@@ -186,15 +184,13 @@ class ObjectsMeta {
         let objects_infos = await this.context.objects().info(file);
         let existant_headers = {};
 
-        if (_.isUndefined(objects_infos)) {
-          existant_headers = _.map(objects_infos.headers, (value, header) => {
+        if (!_.isUndefined(objects_infos)) {
+          Object.entries(objects_infos).forEach((value, key) => {
             if (
-              _.includes(_.toLower(header), _.toLower("X-Object-Meta-")) ||
-              _.includes(_.toLower(header), _.toLower("X-Delete-"))
+              _.includes(_.toLower(value[0]), _.toLower("x-object-meta-")) ||
+              _.includes(_.toLower(value[0]), _.toLower("x-delete-"))
             ) {
-              let a = {};
-              a[header] = value;
-              return a;
+              existant_headers[value[0]] = value[1];
             }
           });
         }
