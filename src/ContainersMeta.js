@@ -66,7 +66,7 @@ class ContainersMeta {
         let existant_headers = {};
 
         if (!_.isUndefined(container_infos)) {
-          Object.entries(objects_infos).forEach((value, key) => {
+          Object.entries(container_infos).forEach((value, key) => {
             if (
               _.includes(_.toLower(value[0]), _.toLower("x-object-meta-")) ||
               _.includes(_.toLower(value[0]), _.toLower("x-delete-"))
@@ -168,7 +168,7 @@ class ContainersMeta {
         let existant_headers = {};
 
         if (!_.isUndefined(container_infos)) {
-          Object.entries(objects_infos).forEach((value, key) => {
+          Object.entries(container_infos).forEach((value, key) => {
             if (
               _.includes(_.toLower(value[0]), _.toLower("x-object-meta-")) ||
               _.includes(_.toLower(value[0]), _.toLower("x-delete-"))
