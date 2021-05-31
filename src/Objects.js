@@ -93,6 +93,54 @@ class Objects {
     });
   }
 
+  directDownload(path, out) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        // check
+        if (_.isUndefined(path))
+          // noinspection ExceptionCaughtLocallyJS
+          throw new Error("Path parameter is expected.");
+        if (!_.isString(path))
+          // noinspection ExceptionCaughtLocallyJS
+          throw new Error("Path parameter is not a string.");
+        if (!_.includes(path, "/"))
+          // noinspection ExceptionCaughtLocallyJS
+          throw new Error(
+            "Path parameter isn't valid : container/filename.ext."
+          );
+
+        // check if file exist
+        if (!(await this.context.objects().exist(path)))
+          // noinspection ExceptionCaughtLocallyJS
+          throw new Error("File path does not seem to exist.");
+
+        let file = (() => {
+          let p = path.split("/");
+          if (p[0] === "") delete p[0];
+
+          p = _.filter(p, (r) => {
+            return !_.isUndefined(r);
+          });
+
+          return p.join("/");
+        })();
+
+        fetch(encodeURI(this.context.endpoint.url + "/" + file), {
+          method: "GET",
+          headers: {
+            "X-Auth-Token": this.context.token,
+            Accept: "application/json",
+          },
+        }).then((res) => {
+          res.body.pipe(out);
+        });
+      } catch (e) {
+        if (fs.existsSync(pathLocal)) fs.unlink(pathLocal);
+        return reject(e);
+      }
+    });
+  }
+
   /**
    * Get file
    *
