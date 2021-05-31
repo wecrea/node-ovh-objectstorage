@@ -1,6 +1,7 @@
 const fs = require("fs");
 const _ = require("../tools/lodash");
 const request = require("../tools/request");
+const fetch = require("node-fetch");
 const moment = require("moment");
 
 const ObjectsMeta = require("./ObjectsMeta");
@@ -70,22 +71,15 @@ class Objects {
           return p.join("/");
         })();
 
-        request(
-          {
-            method: "GET",
-            uri: encodeURI(this.context.endpoint.url + "/" + file),
-            headers: {
-              "X-Auth-Token": this.context.token,
-              Accept: "application/json",
-            },
+        fetch(encodeURI(this.context.endpoint.url + "/" + file), {
+          method: "GET",
+          headers: {
+            "X-Auth-Token": this.context.token,
+            Accept: "application/json",
           },
-          (err, res, body) => {
-            err = err || request.checkIfResponseIsError(res);
-            if (err)
-              // noinspection ExceptionCaughtLocallyJS
-              throw new Error(err);
-          }
-        ).pipe(writeStream);
+        }).then((res) => {
+          res.body.pipe(writeStream);
+        });
         writeStream.on("error", (e) => {
           throw e;
         });
@@ -94,7 +88,6 @@ class Objects {
         });
       } catch (e) {
         if (fs.existsSync(pathLocal)) fs.unlink(pathLocal);
-
         return reject(e);
       }
     });
