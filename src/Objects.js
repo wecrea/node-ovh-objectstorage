@@ -215,7 +215,7 @@ class Objects {
           .then((result) => {
             return resolve({
               content: result.buffer(),
-              headers: result.headers,
+              headers: result.headers.raw(),
             });
           })
           .catch((e) => {
@@ -318,7 +318,7 @@ class Objects {
           body: data,
         })
           .then((result) => {
-            return resolve(result.headers);
+            return resolve(result.headers.raw());
           })
           .catch((e) => {
             return reject(e);
@@ -386,7 +386,7 @@ class Objects {
 
         let stream = fs.createReadStream(file);
         stream.pipe(
-          /*request(
+          request(
             {
               method: "PUT",
               uri: encodeURI(this.context.endpoint.url + path),
@@ -404,8 +404,8 @@ class Objects {
               stream.close();
               return resolve(res.headers);
             }
-          )*/
-          fetch(encodeURI(this.context.endpoint.url + path), {
+          )
+          /*fetch(encodeURI(this.context.endpoint.url + path), {
             method: "PUT",
             headers: {
               "X-Auth-Token": this.context.token,
@@ -414,11 +414,11 @@ class Objects {
           })
             .then((result) => {
               stream.close();
-              return resolve(result.headers);
+              return resolve(result.headers.raw());
             })
             .catch((e) => {
               return reject(e);
-            })
+            })*/
         );
       } catch (e) {
         return reject(e);
@@ -572,7 +572,7 @@ class Objects {
           },
         })
           .then((result) => {
-            return resolve(result.headers);
+            return resolve(result.headers.raw());
           })
           .catch((e) => {
             return reject(e);
@@ -668,7 +668,7 @@ class Objects {
           },
         })
           .then((result) => {
-            return resolve(result.headers);
+            return resolve(result.headers.raw());
           })
           .catch((e) => {
             return reject(e);
@@ -931,7 +931,7 @@ class Objects {
           },
         })
           .then((result) => {
-            return resolve(result.headers);
+            return resolve(result.headers.raw());
           })
           .catch((e) => {
             return reject(e);
@@ -1043,7 +1043,7 @@ class Objects {
           ),
         })
           .then((result) => {
-            return resolve(result.headers);
+            return resolve(result.headers.raw());
           })
           .catch((e) => {
             return reject(e);
