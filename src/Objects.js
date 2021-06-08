@@ -1,6 +1,6 @@
 const fs = require("fs");
 const _ = require("../tools/lodash");
-const request = require("../tools/request");
+//const request = require("../tools/request");
 const fetch = require("node-fetch");
 const moment = require("moment");
 
@@ -84,6 +84,7 @@ class Objects {
           throw e;
         });
         writeStream.on("finish", () => {
+          if (fs.existsSync(pathLocal)) fs.unlink(pathLocal);
           return resolve(true);
         });
       } catch (e) {
@@ -182,7 +183,7 @@ class Objects {
           return p.join("/");
         })();
 
-        request(
+        /*request(
           {
             method: "GET",
             uri: encodeURI(this.context.endpoint.url + "/" + file),
@@ -203,7 +204,23 @@ class Objects {
               headers: res.headers,
             });
           }
-        );
+        );*/
+        fetch(encodeURI(this.context.endpoint.url + "/" + file), {
+          method: "GET",
+          headers: {
+            "X-Auth-Token": this.context.token,
+            Accept: "application/json",
+          },
+        })
+          .then((result) => {
+            return resolve({
+              content: result.buffer(),
+              headers: result.headers,
+            });
+          })
+          .catch((e) => {
+            return reject(e);
+          });
       } catch (e) {
         return reject(e);
       }
@@ -273,7 +290,7 @@ class Objects {
           // noinspection ExceptionCaughtLocallyJS
           throw new Error("Container does not seem to exist.");
 
-        request(
+        /*request(
           {
             method: "PUT",
             uri: encodeURI(this.context.endpoint.url + path),
@@ -291,7 +308,21 @@ class Objects {
 
             return resolve(res.headers);
           }
-        );
+        );*/
+        fetch(encodeURI(this.context.endpoint.url + path), {
+          method: "PUT",
+          headers: {
+            "X-Auth-Token": this.context.token,
+            Accept: "application/json",
+          },
+          body: data,
+        })
+          .then((result) => {
+            return resolve(result.headers);
+          })
+          .catch((e) => {
+            return reject(e);
+          });
       } catch (e) {
         return reject(e);
       }
@@ -355,7 +386,7 @@ class Objects {
 
         let stream = fs.createReadStream(file);
         stream.pipe(
-          request(
+          /*request(
             {
               method: "PUT",
               uri: encodeURI(this.context.endpoint.url + path),
@@ -373,7 +404,21 @@ class Objects {
               stream.close();
               return resolve(res.headers);
             }
-          )
+          )*/
+          fetch(encodeURI(this.context.endpoint.url + path), {
+            method: "PUT",
+            headers: {
+              "X-Auth-Token": this.context.token,
+              Accept: "application/json",
+            },
+          })
+            .then((result) => {
+              stream.close();
+              return resolve(result.headers);
+            })
+            .catch((e) => {
+              return reject(e);
+            })
         );
       } catch (e) {
         return reject(e);
@@ -499,7 +544,7 @@ class Objects {
           return p.join("/");
         })();
 
-        request(
+        /*request(
           {
             method: "COPY",
             uri: encodeURI(this.context.endpoint.url + "/" + pathOriginFile),
@@ -517,7 +562,21 @@ class Objects {
 
             return resolve(res.headers);
           }
-        );
+        );*/
+        fetch(encodeURI(this.context.endpoint.url + "/" + pathOriginFile), {
+          method: "COPY",
+          headers: {
+            "X-Auth-Token": this.context.token,
+            Accept: "application/json",
+            Destination: "/" + pathToPasteFile,
+          },
+        })
+          .then((result) => {
+            return resolve(result.headers);
+          })
+          .catch((e) => {
+            return reject(e);
+          });
       } catch (e) {
         return reject(e);
       }
@@ -583,7 +642,7 @@ class Objects {
           throw new Error("File path does not seem to exist.");
 
         // delete file
-        request(
+        /*request(
           {
             method: "DELETE",
             uri: encodeURI(this.context.endpoint.url + "/" + path),
@@ -600,7 +659,20 @@ class Objects {
 
             return resolve(res.headers);
           }
-        );
+        );*/
+        fetch(encodeURI(this.context.endpoint.url + "/" + path), {
+          method: "DELETE",
+          headers: {
+            "X-Auth-Token": this.context.token,
+            Accept: "application/json",
+          },
+        })
+          .then((result) => {
+            return resolve(result.headers);
+          })
+          .catch((e) => {
+            return reject(e);
+          });
       } catch (e) {
         return reject(e);
       }
@@ -749,7 +821,7 @@ class Objects {
           return p.join("/");
         })();
 
-        request(
+        /*request(
           {
             method: "GET",
             uri: encodeURI(this.context.endpoint.url + "/" + file),
@@ -770,7 +842,23 @@ class Objects {
 
             return resolve(true);
           }
-        );
+        );*/
+        fetch(encodeURI(this.context.endpoint.url + "/" + file), {
+          method: "GET",
+          headers: {
+            "X-Auth-Token": this.context.token,
+            Accept: "application/json",
+          },
+        })
+          .then((result) => {
+            if (parseInt(result.status) === 404) {
+              return resolve(false);
+            }
+            return resolve(true);
+          })
+          .catch((e) => {
+            return reject(e);
+          });
       } catch (e) {
         return reject(e);
       }
@@ -817,7 +905,7 @@ class Objects {
         })();
 
         // call
-        request(
+        /*request(
           {
             method: "HEAD",
             uri: encodeURI(this.context.endpoint.url + "/" + file),
@@ -834,7 +922,20 @@ class Objects {
 
             return resolve(res.headers);
           }
-        );
+        );*/
+        fetch(encodeURI(this.context.endpoint.url + "/" + file), {
+          method: "HEAD",
+          headers: {
+            "X-Auth-Token": this.context.token,
+            Accept: "application/json",
+          },
+        })
+          .then((result) => {
+            return resolve(result.headers);
+          })
+          .catch((e) => {
+            return reject(e);
+          });
       } catch (e) {
         return reject(e);
       }
@@ -906,7 +1007,7 @@ class Objects {
           ? moment(expire_date)
           : expire_date;
 
-        request(
+        /*request(
           {
             method: "POST",
             uri: encodeURI(this.context.endpoint.url + "/" + file),
@@ -929,7 +1030,24 @@ class Objects {
 
             return resolve(res.headers);
           }
-        );
+        );*/
+        fetch(encodeURI(this.context.endpoint.url + "/" + file), {
+          method: "POST",
+          headers: Object.assign(
+            {
+              "X-Auth-Token": this.context.token,
+              "X-Delete-At": Math.round(expire_date.toDate().getTime() / 1000),
+              Accept: "application/json",
+            },
+            existant_headers
+          ),
+        })
+          .then((result) => {
+            return resolve(result.headers);
+          })
+          .catch((e) => {
+            return reject(e);
+          });
       } catch (e) {
         return reject(e);
       }
@@ -1014,7 +1132,7 @@ class Objects {
           });
         }
 
-        request(
+        /*request(
           {
             method: "POST",
             uri: encodeURI(this.context.endpoint.url + "/" + file),
@@ -1035,7 +1153,24 @@ class Objects {
 
             return resolve(res.headers);
           }
-        );
+        );*/
+        fetch(encodeURI(this.context.endpoint.url + "/" + file), {
+          method: "POST",
+          headers: Object.assign(
+            {
+              "X-Auth-Token": this.context.token,
+              "X-Delete-After": parseInt(delete_seconds),
+              Accept: "application/json",
+            },
+            existant_headers
+          ),
+        })
+          .then((result) => {
+            return resolve(result.headers);
+          })
+          .catch((e) => {
+            return reject(e);
+          });
       } catch (e) {
         return reject(e);
       }
